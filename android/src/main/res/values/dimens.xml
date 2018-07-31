@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="default_padding_bottom">55dp</dimen>
+    <dimen name="logo_float_icon_size">60dp</dimen>
+</resources>

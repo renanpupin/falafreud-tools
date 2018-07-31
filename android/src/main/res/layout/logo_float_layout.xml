@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/float_widget_layout"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/float_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icon_imageview"
+                android:layout_width="@dimen/logo_float_icon_size"
+                android:layout_height="@dimen/logo_float_icon_size"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/logo_shape"
+                android:padding="10dp"
+                android:src="@drawable/logo_negative_symbol" />
+
+            <TextView
+                android:animateLayoutChanges="true"
+                android:id="@+id/badge_textview"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="25dp"
+                android:layout_marginLeft="40dp"
+                android:background="@android:drawable/ic_notification_overlay"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>
