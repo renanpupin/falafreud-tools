@@ -1,7 +1,7 @@
 
-#import "falafreud-tools.h"
+#import "FalaFreudTools.h"
 
-@implementation falafreud-tools
+@implementation FalaFreudTools
 
 - (dispatch_queue_t)methodQueue
 {

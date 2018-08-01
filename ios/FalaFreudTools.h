@@ -5,6 +5,6 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
-@interface falafreud-tools : NSObject <RCTBridgeModule>
+@interface FalaFreudTools : NSObject <RCTBridgeModule>
 
 @end
