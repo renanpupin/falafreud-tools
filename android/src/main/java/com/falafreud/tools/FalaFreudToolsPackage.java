@@ -5,6 +5,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
+import com.falafreud.tools.modules.call.CallManagerModule;
 import com.falafreud.tools.modules.floatwidget.FloatWidgetManagerModule;
 
 import java.util.Arrays;
@@ -16,7 +17,9 @@ public class FalaFreudToolsPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
 
-        return Arrays.<NativeModule>asList(new FloatWidgetManagerModule(reactContext));
+        return Arrays.<NativeModule>asList(
+            new FloatWidgetManagerModule(reactContext),
+            new CallManagerModule(reactContext));
     }
 
     // Deprecated from RN 0.47

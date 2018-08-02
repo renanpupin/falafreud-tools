@@ -16,6 +16,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.falafreud.tools.modules.floatwidget.icon.FloatIconService;
+import com.falafreud.tools.modules.NotificationFilterService;
 
 /**
  * Created by Haroldo Shigueaki Teruya on 18/07/18.
@@ -50,7 +51,7 @@ public class FloatWidgetManagerModule extends ReactContextBaseJavaModule impleme
     }
 
     /**
-     * This method is called by {@link com.falafreud.tools.modules.floatwidget.message.service.MessageNotificationExtenderService}.
+     * This method is called by {@link NotificationFilterService}.
      * This method is called when the application receive an notification.
      */
     private void onUnreadMessageReceived() {
@@ -163,5 +164,24 @@ public class FloatWidgetManagerModule extends ReactContextBaseJavaModule impleme
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getReactApplicationContext().getBaseContext());
         return preferences.getBoolean(SHOW_FLOAT_WIDGET_WHEN_APPLICATION_INACTIVE, false);
+    }
+
+    // CLASS =======================================================================================
+    // =============================================================================================
+
+    public static final class Constant {
+
+        public static final String FalaFreud = "com.falafreud.falafreud";
+
+        // used to read the pushnotification  payload
+        public static final String DATA = "data";
+        public static final String TYPE = "type";
+        public static final String NEW_MESSAGE = "new_message";
+
+        // used for BroadcastReceiver
+        public static final String ACTION = "com.falafreud.module.floatwidget.unread_message_received";
+
+        // used to send data to the FloatIconService
+        public static final String ON_UNREAD_MESSAGE_RECEIVED = "on_unread_message_received";
     }
 }

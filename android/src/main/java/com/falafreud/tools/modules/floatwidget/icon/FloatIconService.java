@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.falafreud.tools.R;
-import com.falafreud.tools.modules.floatwidget.Constant;
+import com.falafreud.tools.modules.floatwidget.FloatWidgetManagerModule;
 import com.falafreud.tools.modules.floatwidget.icon.magnet.IconCallback;
 import com.falafreud.tools.modules.floatwidget.icon.magnet.Magnet;
 
@@ -19,6 +19,7 @@ import com.falafreud.tools.modules.floatwidget.icon.magnet.Magnet;
  * Created by Haroldo Shigueaki Teruya on 18/07/18.
  */
 public class FloatIconService extends Service implements IconCallback {
+
     // GLOBAL VARIABLES ============================================================================
     // =============================================================================================
 
@@ -41,10 +42,10 @@ public class FloatIconService extends Service implements IconCallback {
 
         Log.d(TAG, "FloatIconService onStartCommand ");
 
-        if (intent != null && intent.hasExtra(Constant.ON_UNREAD_MESSAGE_RECEIVED)) {
+        if (intent != null && intent.hasExtra(FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED)) {
 
-            int count = intent.getIntExtra(Constant.ON_UNREAD_MESSAGE_RECEIVED, 0);
-            Log.d(TAG, "FloatIconService onStartCommand: " + Constant.ON_UNREAD_MESSAGE_RECEIVED + ", count: " + count);
+            int count = intent.getIntExtra(FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED, 0);
+            Log.d(TAG, "FloatIconService onStartCommand: " + FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED + ", count: " + count);
             if (count != 0) {
                 this.onUnreadMessageReceived(count);
             }
@@ -140,7 +141,7 @@ public class FloatIconService extends Service implements IconCallback {
             isStartingService = true;
             destroy();
             PackageManager packageManager = FloatIconService.this.getPackageManager();
-            Intent launchIntent = packageManager.getLaunchIntentForPackage("com.falafreud.falafreud");
+            Intent launchIntent = packageManager.getLaunchIntentForPackage(FloatWidgetManagerModule.Constant.FalaFreud);
             FloatIconService.this.startActivity(launchIntent);
         }
     }
