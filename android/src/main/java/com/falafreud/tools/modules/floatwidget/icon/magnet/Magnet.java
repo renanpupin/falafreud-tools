@@ -379,29 +379,33 @@ public class Magnet implements
 
     protected void initializeMotionPhysics() {
 
-        SpringConfig config = getSpringConfig();
-        SpringSystem springSystem = getSpringSystem();
-        this.xSpring = createXSpring(springSystem, config);
-        this.ySpring = createYSpring(springSystem, config);
-        this.motionImitatorX = new MagnetImitator(
-                MotionProperty.X,
-                Imitator.TRACK_DELTA,
-                Imitator.FOLLOW_SPRING,
-                0, 0);
-        this.motionImitatorY = new MagnetImitator(
-                MotionProperty.Y,
-                Imitator.TRACK_DELTA,
-                Imitator.FOLLOW_SPRING,
-                0, 0);
-        this.xWindowManagerPerformer = new WindowManagerPerformer(MotionProperty.X);
-        this.yWindowManagerPerformer = new WindowManagerPerformer(MotionProperty.Y);
-        this.actor = new Actor.Builder(springSystem, this.iconView).addMotion(this.xSpring, this.motionImitatorX, this.xWindowManagerPerformer)
-                .addMotion(this.ySpring, this.motionImitatorY, this.yWindowManagerPerformer)
-                .onTouchListener(this)
-                .build();
-        this.iconView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        try {
+            SpringConfig config = getSpringConfig();
+            SpringSystem springSystem = getSpringSystem();
+            this.xSpring = createXSpring(springSystem, config);
+            this.ySpring = createYSpring(springSystem, config);
+            this.motionImitatorX = new MagnetImitator(
+                    MotionProperty.X,
+                    Imitator.TRACK_DELTA,
+                    Imitator.FOLLOW_SPRING,
+                    0, 0);
+            this.motionImitatorY = new MagnetImitator(
+                    MotionProperty.Y,
+                    Imitator.TRACK_DELTA,
+                    Imitator.FOLLOW_SPRING,
+                    0, 0);
+            this.xWindowManagerPerformer = new WindowManagerPerformer(MotionProperty.X);
+            this.yWindowManagerPerformer = new WindowManagerPerformer(MotionProperty.Y);
+            this.actor = new Actor.Builder(springSystem, this.iconView).addMotion(this.xSpring, this.motionImitatorX, this.xWindowManagerPerformer)
+                    .addMotion(this.ySpring, this.motionImitatorY, this.yWindowManagerPerformer)
+                    .onTouchListener(this)
+                    .build();
+            this.iconView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
-        prepareIconView();
+            prepareIconView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void prepareIconView() {
@@ -411,7 +415,7 @@ public class Magnet implements
                 this.iconImageView = (ImageView) this.iconView.findViewById(R.id.icon_imageview);
                 RelativeLayout.LayoutParams iconLayoutParams = (RelativeLayout.LayoutParams) this.iconImageView.getLayoutParams();
 
-                this.iconPressedLayoutParams =  new RelativeLayout.LayoutParams(iconLayoutParams);
+                this.iconPressedLayoutParams = new RelativeLayout.LayoutParams(iconLayoutParams);
                 this.iconUnPressedLayoutParams = new RelativeLayout.LayoutParams(iconLayoutParams);
 
                 this.iconPressedLayoutParams.height = (int) pxFromDp(55);
@@ -420,7 +424,6 @@ public class Magnet implements
                 this.iconUnPressedLayoutParams.height = (int) pxFromDp(60);
                 this.iconUnPressedLayoutParams.width = (int) pxFromDp(60);
             }
-
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
@@ -462,15 +465,20 @@ public class Magnet implements
 
     protected void addToWindow() {
 
-        int overlayFlag = WindowManager.LayoutParams.TYPE_PHONE;
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                this.iconWidth > 0 ? this.iconWidth : WindowManager.LayoutParams.WRAP_CONTENT,
-                this.iconHeight > 0 ? this.iconHeight : WindowManager.LayoutParams.WRAP_CONTENT,
-                overlayFlag, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, PixelFormat.TRANSPARENT);
-        params.gravity = Gravity.TOP | Gravity.START;
-        this.windowManager.addView(this.iconView, this.layoutParams = params);
-        this.addedToWindow = true;
+        try {
+            int overlayFlag = WindowManager.LayoutParams.TYPE_PHONE;
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                    this.iconWidth > 0 ? this.iconWidth : WindowManager.LayoutParams.WRAP_CONTENT,
+                    this.iconHeight > 0 ? this.iconHeight : WindowManager.LayoutParams.WRAP_CONTENT,
+                    overlayFlag, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, PixelFormat.TRANSPARENT);
+            params.gravity = Gravity.TOP | Gravity.START;
+            this.windowManager.addView(this.iconView, this.layoutParams = params);
+            this.addedToWindow = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            destroy();
+        }
     }
 
     protected float pxFromDp(float dp) {
@@ -486,41 +494,57 @@ public class Magnet implements
 
     protected boolean iconOverlapsWithRemoveView() {
 
-        if (this.removeView.isShowing()) {
-            View firstView = this.removeView.buttonImage;
-            View secondView = this.iconView;
-            int[] firstPosition = new int[2];
-            int[] secondPosition = new int[2];
+        try {
+            if (this.removeView.isShowing()) {
+                View firstView = this.removeView.buttonImage;
+                View secondView = this.iconView;
+                int[] firstPosition = new int[2];
+                int[] secondPosition = new int[2];
 
-            firstView.getLocationOnScreen(firstPosition);
-            secondView.getLocationOnScreen(secondPosition);
+                firstView.getLocationOnScreen(firstPosition);
+                secondView.getLocationOnScreen(secondPosition);
 
-            // Rect constructor parameters: left, top, right, bottom
-            Rect rectFirstView = new Rect(firstPosition[0], firstPosition[1], firstPosition[0] + firstView.getMeasuredWidth(), firstPosition[1] + firstView.getMeasuredHeight());
-            Rect rectSecondView = new Rect(secondPosition[0], secondPosition[1], secondPosition[0] + secondView.getMeasuredWidth(), secondPosition[1] + secondView.getMeasuredHeight());
+                // Rect constructor parameters: left, top, right, bottom
+                Rect rectFirstView = new Rect(firstPosition[0], firstPosition[1], firstPosition[0] + firstView.getMeasuredWidth(), firstPosition[1] + firstView.getMeasuredHeight());
+                Rect rectSecondView = new Rect(secondPosition[0], secondPosition[1], secondPosition[0] + secondView.getMeasuredWidth(), secondPosition[1] + secondView.getMeasuredHeight());
 
-            return rectFirstView.intersect(rectSecondView);
+                return rectFirstView.intersect(rectSecondView);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
 
     protected void showRemoveView() {
 
-        if (removeView != null && shouldShowRemoveView && !removeView.isShowing()) {
-            removeView.show();
+        try {
+            if (removeView != null && shouldShowRemoveView && !removeView.isShowing()) {
+                removeView.show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     protected void hideRemoveView() {
 
-        if (removeView != null && shouldShowRemoveView && removeView.isShowing()) {
-            removeView.hide();
+        try {
+            if (removeView != null && shouldShowRemoveView && removeView.isShowing()) {
+                removeView.hide();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     protected void onOrientationChange() {
 
-        iconView.getViewTreeObserver().addOnGlobalLayoutListener(Magnet.this);
+        try {
+            iconView.getViewTreeObserver().addOnGlobalLayoutListener(Magnet.this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -528,13 +552,18 @@ public class Magnet implements
      */
     public void show() {
 
-        addToWindow();
-        iconView.setOnClickListener(this);
-        initializeMotionPhysics();
-        setPosition(0, initialY);
-        xSpring.addListener(this);
-        ySpring.addListener(this);
-        context.registerReceiver(orientationChangeReceiver, new IntentFilter(Intent.ACTION_CONFIGURATION_CHANGED));
+        try {
+            addToWindow();
+            iconView.setOnClickListener(this);
+            initializeMotionPhysics();
+            setPosition(0, initialY);
+            xSpring.addListener(this);
+            ySpring.addListener(this);
+            context.registerReceiver(orientationChangeReceiver, new IntentFilter(Intent.ACTION_CONFIGURATION_CHANGED));
+        } catch (Exception e) {
+            e.printStackTrace();
+            destroy();
+        }
     }
 
     /**
@@ -560,10 +589,14 @@ public class Magnet implements
      */
     public void setPosition(int x, int y) {
 
-        actor.removeAllListeners();
-        xSpring.setEndValue(x);
-        ySpring.setEndValue(y);
-        actor.addAllListeners();
+        try {
+            actor.removeAllListeners();
+            xSpring.setEndValue(x);
+            ySpring.setEndValue(y);
+            actor.addAllListeners();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -641,8 +674,12 @@ public class Magnet implements
             ImageView iconImageView,
             final RelativeLayout.LayoutParams iconLayoutParams) {
 
-        badgeTextView.setLayoutParams(badgeLayoutParams);
-        iconImageView.setLayoutParams(iconLayoutParams);
+        try {
+            badgeTextView.setLayoutParams(badgeLayoutParams);
+            iconImageView.setLayoutParams(iconLayoutParams);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -722,35 +759,39 @@ public class Magnet implements
     @Override
     public boolean onTouch(View view, MotionEvent event) {
 
-        int action = event.getAction();
-        if (action == MotionEvent.ACTION_DOWN) {
-            Log.d(TAG, "Magnet onTouch ACTION_DOWN");
-            this.onIconPressed(true);
-            this.isBeingDragged = true;
-            this.isToMove = false;
-            this.lastTouchDown = System.currentTimeMillis();
-            this.lastX = event.getRawX();
-            this.lastY = event.getRawY();
-            this.distance = 0;
-            return false;
+        try {
+            int action = event.getAction();
+            if (action == MotionEvent.ACTION_DOWN) {
+                Log.d(TAG, "Magnet onTouch ACTION_DOWN");
+                this.onIconPressed(true);
+                this.isBeingDragged = true;
+                this.isToMove = false;
+                this.lastTouchDown = System.currentTimeMillis();
+                this.lastX = event.getRawX();
+                this.lastY = event.getRawY();
+                this.distance = 0;
+                return false;
 
-        } else if (action == MotionEvent.ACTION_MOVE) {
-            this.distance = getDistance(this.lastX, this.lastY, event.getRawX(), event.getRawY());
-            Log.d(TAG, "Magnet onTouch ACTION_MOVE " + this.distance);
-            if (!this.isToMove && this.distance > 50) {
-                this.isToMove = true;
+            } else if (action == MotionEvent.ACTION_MOVE) {
+                this.distance = getDistance(this.lastX, this.lastY, event.getRawX(), event.getRawY());
+                Log.d(TAG, "Magnet onTouch ACTION_MOVE " + this.distance);
+                if (!this.isToMove && this.distance > 50) {
+                    this.isToMove = true;
+                }
+                return this.isToMove;
+
+            } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                this.onIconPressed(false);
+                this.isBeingDragged = false;
+                this.distance = 0;
+                this.lastX = 0;
+                this.lastY = 0;
+                this.isToMove = false;
+                Log.d(TAG, "Magnet onTouch ACTION_UP");
+                return true;
             }
-            return this.isToMove;
-
-        } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-            this.onIconPressed(false);
-            this.isBeingDragged = false;
-            this.distance = 0;
-            this.lastX = 0;
-            this.lastY = 0;
-            this.isToMove = false;
-            Log.d(TAG, "Magnet onTouch ACTION_UP");
-            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -760,11 +801,15 @@ public class Magnet implements
     @Override
     public void onClick(View view) {
 
-        xSpring.setAtRest();
-        ySpring.setAtRest();
-        view.getLocationOnScreen(iconPosition);
-        if (iconCallback != null) {
-            iconCallback.onIconClick(view, iconPosition[0], iconPosition[1]);
+        try {
+            xSpring.setAtRest();
+            ySpring.setAtRest();
+            view.getLocationOnScreen(iconPosition);
+            if (iconCallback != null) {
+                iconCallback.onIconClick(view, iconPosition[0], iconPosition[1]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -773,11 +818,11 @@ public class Magnet implements
     @Override
     public void onSpringUpdate(Spring spring) {
 
-        this.iconView.getLocationOnScreen(this.iconPosition);
-        if (this.iconCallback != null) {
-            this.iconCallback.onMove(this.iconPosition[0], this.iconPosition[1]);
-        }
         try {
+            this.iconView.getLocationOnScreen(this.iconPosition);
+            if (this.iconCallback != null) {
+                this.iconCallback.onMove(this.iconPosition[0], this.iconPosition[1]);
+            }
             if (this.shouldStickToWall && getResource().getDisplayMetrics() != null) {
                 boolean endX = this.iconPosition[0] > getResource().getDisplayMetrics().widthPixels / 2;
                 this.handleSetBadgePosition(endX);
@@ -793,7 +838,6 @@ public class Magnet implements
 
     @Override
     public void onSpringAtRest(Spring spring) {
-
 
     }
 
@@ -848,10 +892,7 @@ public class Magnet implements
         public void release(MotionEvent event) {
 
             super.release(event);
-            if (
-                    !isGoingToWall &&
-                            !isSnapping &&
-                            (Math.abs(ySpring.getVelocity()) >= flingVelocityMinimum || Math.abs(xSpring.getVelocity()) >= flingVelocityMinimum)) {
+            if (!isGoingToWall && !isSnapping && (Math.abs(ySpring.getVelocity()) >= flingVelocityMinimum || Math.abs(xSpring.getVelocity()) >= flingVelocityMinimum)) {
                 isFlinging = true;
             }
             if (!isFlinging && !isSnapping) {
@@ -875,8 +916,6 @@ public class Magnet implements
 
         @Override
         public void imitate(final View view, @NonNull final MotionEvent event) {
-
-//            Log.d(TAG, "Magnet imitate");
 
             final float viewValue;
             if (mProperty == MotionProperty.X) {
