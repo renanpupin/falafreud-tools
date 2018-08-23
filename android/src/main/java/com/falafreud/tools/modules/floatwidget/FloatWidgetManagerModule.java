@@ -109,37 +109,39 @@ public class FloatWidgetManagerModule extends ReactContextBaseJavaModule impleme
      */
     private void startService(int count) {
 
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constant.ACTION);
-        this.broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                if (intent != null) {
-                    FloatWidgetManagerModule.this.onUnreadMessageReceived();
+        try {
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(Constant.ACTION);
+            this.broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (intent != null) {
+                        FloatWidgetManagerModule.this.onUnreadMessageReceived();
+                    }
                 }
             }
-        };
-
-        Intent intent = new Intent(this.reactContext, FloatIconService.class);
-        intent.putExtra(Constant.ON_UNREAD_MESSAGE_RECEIVED, count);
-        this.reactContext.registerReceiver(this.broadcastReceiver, intentFilter);
-        this.reactContext.startService(intent);
+            Intent intent = new Intent(this.reactContext, FloatIconService.class);
+            intent.putExtra(Constant.ON_UNREAD_MESSAGE_RECEIVED, count);
+            this.reactContext.registerReceiver(this.broadcastReceiver, intentFilter);
+            this.reactContext.startService(intent);
+            this.isBackground = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void onHostResume() {
-
-        Log.d(TAG, getName() + " onHostDestroy");
+    @ReactMethod
+    public void handleStopService() {
         this.stopService();
         this.isBackground = false;
     }
 
     @Override
-    public void onHostPause() {
+    public void onHostResume() {
+    }
 
-        Log.d(TAG, getName() + " onHostPause: " + isBackground);
-        this.isBackground = true;
+    @Override
+    public void onHostPause() {
     }
 
     @Override

@@ -32,15 +32,19 @@ class FloatWidgetManager {
     constructor() {
     }
 
-    handleStartService(count : int) : void {
+    handleStartService(count: int): void {
         NativeModules.FloatWidgetManagerModule.handleStartService(count);
     }
 
-    showWhenApplicationInactive(enable : boolean) : void {
+    handleStopService(): void {
+        NativeModules.FloatWidgetManagerModule.handleStopService();
+    }
+
+    showWhenApplicationInactive(enable: boolean): void {
         NativeModules.FloatWidgetManagerModule.showWhenApplicationInactive(enable);
     }
 
-    isToShowWhenApplicationInactive() : boolean {
+    isToShowWhenApplicationInactive(): boolean {
         return NativeModules.FloatWidgetManagerModule.isToShowWhenApplicationInactive();
     }
 
