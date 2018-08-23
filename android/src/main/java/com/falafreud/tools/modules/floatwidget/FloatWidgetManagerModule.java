@@ -119,7 +119,7 @@ public class FloatWidgetManagerModule extends ReactContextBaseJavaModule impleme
                         FloatWidgetManagerModule.this.onUnreadMessageReceived();
                     }
                 }
-            }
+            };
             Intent intent = new Intent(this.reactContext, FloatIconService.class);
             intent.putExtra(Constant.ON_UNREAD_MESSAGE_RECEIVED, count);
             this.reactContext.registerReceiver(this.broadcastReceiver, intentFilter);
