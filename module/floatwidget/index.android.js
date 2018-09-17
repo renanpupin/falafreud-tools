@@ -33,19 +33,19 @@ class FloatWidgetManager {
     }
 
     handleStartService(count: int): void {
-        NativeModules.FloatWidgetManagerModule.handleStartService(count);
+        // NativeModules.FloatWidgetManagerModule.handleStartService(count);
     }
 
     handleStopService(): void {
-        NativeModules.FloatWidgetManagerModule.handleStopService();
+        // NativeModules.FloatWidgetManagerModule.handleStopService();
     }
 
     showWhenApplicationInactive(enable: boolean): void {
-        NativeModules.FloatWidgetManagerModule.showWhenApplicationInactive(enable);
+        // NativeModules.FloatWidgetManagerModule.showWhenApplicationInactive(enable);
     }
 
     isToShowWhenApplicationInactive(): boolean {
-        return NativeModules.FloatWidgetManagerModule.isToShowWhenApplicationInactive();
+        // return NativeModules.FloatWidgetManagerModule.isToShowWhenApplicationInactive();
     }
 
     //==========================================================================
