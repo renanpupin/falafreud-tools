@@ -42,25 +42,25 @@ public class FloatIconService extends Service implements IconCallback {
 
         Log.d(TAG, "FloatIconService onStartCommand ");
 
-        if (intent != null && intent.hasExtra(FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED)) {
-
-            int count = intent.getIntExtra(FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED, 0);
-            Log.d(TAG, "FloatIconService onStartCommand: " + FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED + ", count: " + count);
-            if (count != 0) {
-                this.onUnreadMessageReceived(count);
-            }
-        }
+        // if (intent != null && intent.hasExtra(FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED)) {
+        //
+        //     int count = intent.getIntExtra(FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED, 0);
+        //     Log.d(TAG, "FloatIconService onStartCommand: " + FloatWidgetManagerModule.Constant.ON_UNREAD_MESSAGE_RECEIVED + ", count: " + count);
+        //     if (count != 0) {
+        //         this.onUnreadMessageReceived(count);
+        //     }
+        // }
 
         return START_NOT_STICKY;
     }
 
     private void onUnreadMessageReceived(int count) {
-        Log.d(TAG, "FloatIconService onUnreadMessageReceived");
-        try {
-            magnet.onUnreadMessageReceived(count);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Log.d(TAG, "FloatIconService onUnreadMessageReceived");
+        // try {
+        //     magnet.onUnreadMessageReceived(count);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
     }
 
     @Override

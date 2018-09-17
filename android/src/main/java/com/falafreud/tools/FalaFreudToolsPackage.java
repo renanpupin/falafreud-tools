@@ -18,7 +18,7 @@ public class FalaFreudToolsPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
 
         return Arrays.<NativeModule>asList(
-            new FloatWidgetManagerModule(reactContext),
+            // new FloatWidgetManagerModule(reactContext),
             new CallManagerModule(reactContext));
     }
 
