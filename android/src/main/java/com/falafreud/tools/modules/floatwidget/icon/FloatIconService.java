@@ -55,9 +55,12 @@ public class FloatIconService extends Service implements IconCallback {
     }
 
     private void onUnreadMessageReceived(int count) {
-
         Log.d(TAG, "FloatIconService onUnreadMessageReceived");
-        magnet.onUnreadMessageReceived(count);
+        try {
+            magnet.onUnreadMessageReceived(count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -182,4 +185,3 @@ public class FloatIconService extends Service implements IconCallback {
         }
     }
 }
-
